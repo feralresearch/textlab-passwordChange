@@ -1,5 +1,5 @@
 const pg_host = 'localhost';
-const pg_user = 'andrew';
+const pg_user = '';
 const pg_password = '';
 const pg_database = 'tl';
 
