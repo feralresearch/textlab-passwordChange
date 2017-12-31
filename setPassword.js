@@ -4,10 +4,13 @@ const pg_password = process.env.SETPASSWORD_PG_PASSWORD;
 const pg_database = process.env.SETPASSWORD_PG_DATABASE;
 
 const pg_url = "postgresql://"+pg_host+"/"+pg_database+"?user="+pg_user+"&password="+pg_password+"&ssl=false";
-console.log("\x1b[1m\nDatabase: \x1b[41m%s\x1b[0m",pg_url);
 const argv = require('minimist')(process.argv.slice(2));
 const bcrypt = require('bcrypt');
 const pg = require('pg');
+
+
+// Color cheatsheet: https://stackoverflow.com/questions/9781218/how-to-change-node-jss-console-font-color
+console.log("\x1b[1m\nDatabase: \x1b[41m%s\x1b[0m",pg_url);
 
 // Requires (--u or --e) and --p
 if(( ( argv.u || argv.e || argv.i) && argv.p)){
