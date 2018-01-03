@@ -9,19 +9,40 @@ const bcrypt = require('bcrypt');
 const pg = require('pg');
 
 
-// Color cheatsheet: https://stackoverflow.com/questions/9781218/how-to-change-node-jss-console-font-color
-console.log("\x1b[1m\nDatabase: \x1b[41m%s\x1b[0m",pg_url);
+
 
 // Requires (--u or --e) and --p
-if(( ( argv.u || argv.e || argv.i) && argv.p)){
+// or --h
+if(( (argv.u || argv.e || argv.i) && argv.p) ||
+	 (argv.h) ){
 
+	// Just hash
+	if(argv.h){
+		var newPassword = argv.h.toString().trim();
+		bcrypt.hash(newPassword, 10, function(err, hash){
+			if(err){
+				console.log("Error: "+err);
+			}else{
+				console.log('\x1b[0m\x1b[37m%s\x1b[0m','"'+newPassword + '" hashed: '+ hash);
+
+			}
+
+		});
+		return;
+	}
+
+	// Color cheatsheet: https://stackoverflow.com/questions/9781218/how-to-change-node-jss-console-font-color
+	console.log("\x1b[1m\nOperating on: \x1b[41m%s\x1b[0m",pg_url);
+
+	// Otherwise change passwords
 	var newPassword = argv.p.toString().trim();
 	if(newPassword.length < 0 || newPassword == 'true'){
 		console.log("New password cannot be blank");
-		process.exit()
+		process.exit();
 	}
 
 	bcrypt.hash(newPassword, 10, function(err, hash) {
+
 		if(argv.u){
 			var username = argv.u.toString().trim();
 			if(username.length < 0 || username == 'true'){
